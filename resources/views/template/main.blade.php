@@ -7,10 +7,13 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <title>Document</title>
 </head>
-<body>
+<body class="position-relative  min-vh-100 h-100">
     
     @include('partials.navBar')
-    @yield('content')
+    <div class="container pb-5">
+
+        @yield('content')
+    </div>
     @include('partials.footer')
     <script src="{{asset('js/app.js')}}"></script>
 </body>
