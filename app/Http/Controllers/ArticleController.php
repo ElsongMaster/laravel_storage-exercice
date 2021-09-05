@@ -15,7 +15,7 @@ class ArticleController extends Controller
      */
     public function index() {
         $datas = Article::all();
-        return view('pages.index',compact('datas'));
+        return view('pages.allArticle',compact('datas'));
     }
 
     /**
@@ -36,21 +36,24 @@ class ArticleController extends Controller
      */
     public function store(Request $rq)
     {
-                            request()->validate([
-            "info"=>["required","min:1","max:100"],
-            "email"=>["required"],
-            "phone_number"=>["required"],
+            request()->validate([
+            "nom"=>["required","min:1","max:100"],
+            "description"=>["required"],
+            "date_publication"=>["required"],
+            "auteur"=>["required","min:1","max:100"],
+            "image"=>["required"],
         ]);
-        $img = new Article;
-        $img->url = $rq->file('url')->hashName();
-        $img->name = $rq->name;
-        $img->description = $rq->description;
-        $img->save();
+        $Article = new Article;
+        $Article->nom = $rq->nom;
+        $Article->description = $rq->description;
+        $Article->date_publication = $rq->date_publication;
+        $Article->auteur = $rq->auteur;
+        $Article->image = $rq->file("image")->hashName();
+        $Article->save();
+        $rq->file("image")->storePublicly("img","public");
 
-        $rq->file("url")->storePublicly("img","public");
 
-
-        return redirect()->route('Articles.index');
+        return redirect()->route('articles.index');
     }
 
     /**
@@ -61,8 +64,8 @@ class ArticleController extends Controller
      */
     public function show(Article $Article)
     {
-        $img = $Article;
-        return view('Articles.show',compact('img'));
+        $article = $Article;
+        return view('articles.show',compact('article'));
     }
 
     /**
@@ -74,8 +77,8 @@ class ArticleController extends Controller
     public function edit(Article $Article)
     {
 
-        $img = $Article;
-        return view('Articles.edit',compact('img'));
+        $article = $Article;
+        return view('articles.edit',compact('article'));
     }
 
     /**
@@ -87,6 +90,7 @@ class ArticleController extends Controller
      */
     public function update(Request $rq, Article $Article)
     {
+        Storage::disk("public")->delete("img/".$Article->image);
             request()->validate([
             "nom"=>["required","min:1","max:100"],
             "description"=>["required"],
@@ -94,15 +98,16 @@ class ArticleController extends Controller
             "auteur"=>["required","min:1","max:100"],
             "image"=>["required"],
         ]);
-        Storage::disk("public")->delete("img/".$Article->url);
-
-        $Article->url = $rq->file("url")->hashName();
-        $Article->name = $rq->name;
+        
+        $Article->image = $rq->file("image")->hashName();
+        $Article->nom = $rq->nom;
         $Article->description = $rq->description;
+        $Article->date_publication = $rq->date_publication;
+        $Article->auteur = $rq->auteur;
         $Article->save();
-        $rq->file("url")->storePublicly("img","public");
+        $rq->file("image")->storePublicly("img","public");
 
-        return redirect()->route('Articles.show',$Article->id);
+        return redirect()->route('articles.show',$Article->id);
 
     }
 
@@ -114,9 +119,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $Article)
     {
-        Storage::disk("public")->delete("img".$Article->url);
+        Storage::disk("public")->delete("img/".$Article->image);
         $Article->delete();
 
-        return redirect()->route('Articles.index');
+        return redirect()->route('articles.index');
     }
 }

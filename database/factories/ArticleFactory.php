@@ -22,9 +22,9 @@ class ArticleFactory extends Factory
     public function definition()
     {
         return [
-            "nom"=>$this->faker->name(),
-            "description"=>$this->faker->text(50),
-            "date_publication"=>$this->faker->date('d-m-Y'),
+            "nom"=>$this->faker->text(15),
+            "description"=>$this->faker->text(40),
+            "date_publication"=>$this->faker->date('Y-m-d'),
             "auteur"=>$this->faker->randomElement($array = array('Camara Laye','Chinua Achebe','Cheikh Hamidou Kane','Aimé Césaire','Eza Boto','Mariama Bâ','Bernard Dadié')),
             "image"=>$this->faker->imageUrl($width = 640, $height = 480),
             
