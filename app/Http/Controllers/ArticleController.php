@@ -53,7 +53,7 @@ class ArticleController extends Controller
         $rq->file("image")->storePublicly("img","public");
 
 
-        return redirect()->route('articles.index');
+        return redirect()->route('articles.index')->with('message', 'IT WORKS!');
     }
 
     /**
@@ -107,7 +107,7 @@ class ArticleController extends Controller
         $Article->save();
         $rq->file("image")->storePublicly("img","public");
 
-        return redirect()->route('articles.show',$Article->id);
+        return redirect()->route('articles.show',$Article->id)->with('message', 'IT WORKS!');
 
     }
 
@@ -122,6 +122,6 @@ class ArticleController extends Controller
         Storage::disk("public")->delete("img/".$Article->image);
         $Article->delete();
 
-        return redirect()->route('articles.index');
+        return redirect()->route('articles.index')->with('message', 'IT WORKS!');
     }
 }
