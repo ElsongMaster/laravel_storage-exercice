@@ -4,18 +4,10 @@
 
 
 @section('content')
-@if (session()->has('success'))
-<div class="alert alert-success">
-    @if(is_array(session('success')))
-        <ul>
-            @foreach (session('success') as $message)
-                <li>{{ $message }}</li>
-            @endforeach
-        </ul>
-    @else
-        {{ session('success') }}
-    @endif
-</div>
+@if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
 @endif
 <h1 class="text-center my-5">Bienvenue sur la page Article</h1>
 <table class="table">

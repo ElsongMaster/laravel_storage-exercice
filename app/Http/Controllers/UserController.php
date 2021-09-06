@@ -58,9 +58,8 @@ class UserController extends Controller
         $rq->file("photo")->storePublicly("img","public");
 
 
-        return redirect()->route('users.index')->withSuccess('Requête exécuté avec succés');
+        return redirect()->route('users.index')->with('message', 'IT WORKS!');
     }
-
     /**
      * Display the specified resource.
      *
@@ -115,7 +114,7 @@ class UserController extends Controller
 
         $rq->file("photo")->storePublicly("img","public");
 
-        return redirect()->route('users.show',$user->id)->withSuccess('Requête exécuté avec succés');
+        return redirect()->route('users.show',$user->id)->with('message', 'IT WORKS!');
 
     }
 
@@ -130,6 +129,6 @@ class UserController extends Controller
         Storage::disk("public")->delete("img".$User->photo);
         $User->delete();
 
-        return redirect()->route('users.index')->withSuccess('Requête exécuté avec succés');
+        return redirect()->route('users.index')->with('message', 'IT WORKS!');
     }
 }

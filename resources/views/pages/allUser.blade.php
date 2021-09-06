@@ -4,6 +4,11 @@
 
 
 @section('content')
+@if(session()->has('message'))
+    <div class="alert alert-success">
+        {{ session()->get('message') }}
+    </div>
+@endif
 <h1 class="text-center my-5">Bienvenue sur la page User</h1>
 <table class="table">
   <thead>
@@ -42,4 +47,5 @@
 
     <a href="{{route('users.create')}}" class="btn btn-success p-4  my-3 rounded mx-auto"><i class="fas fa-plus text-light fs-2"></i></a>
 </div>
+
 @endsection
